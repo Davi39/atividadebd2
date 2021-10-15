@@ -4,6 +4,7 @@ const { Pool } = require("pg");
 const dotenv = require("dotenv");
 dotenv.config();
 const app = express();
+app.use(express.json());
 
 const pool = new Pool({
   connectionString: "postgres://postgres:davi0809@localhost:5432/atividadeextra",
@@ -15,7 +16,7 @@ pool.on("connect", () => {
 
 app.get("/usuarios", async (req, res) => {
   const { rows: user } = await pool.query(
-    `select * from usuarios where nome = ${req.query.nome};`
+    `select * from usuarios where nome = ${req.body.nome};`
   );
   res.status(200).json({ response: user });
 });
